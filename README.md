@@ -6,6 +6,7 @@
 export FLASK_APP=main.py
 export DEAL_URL=https://api.claritysso.com/api/flights/getResult/deal
 export FILTER_URL=https://api.claritysso.com/api/flights/flightSearchFilterData
+export PORTAL_ORIGIN=https://citiairtravel.com
 ````
 4. Run Flask server either in pycharm or using command line
 ````bash
