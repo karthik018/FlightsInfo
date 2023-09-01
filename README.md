@@ -4,7 +4,8 @@
 # Create Virtual environment
 ````bash
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate (linux)
+venv\Scripts\Activate (windows)
 ````
 # Install required dependencies from requirements.txt
 ````bash
