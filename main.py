@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from fetcher import fetch_data
-from constants import FLIGHT_REQUEST_DATA, CABIN_CLASS_MAP, TRIP_TYPE_MAP
+from constants import CABIN_CLASS_MAP, TRIP_TYPE_MAP
 import os
 
 app = Flask(__name__)
@@ -68,16 +68,37 @@ def parse_data(resp_data):
 	return None
 
 
-@app.route("/api/v1/fetch_flights", methods=["POST"])
-def get_data():
-	request_data = request.get_json()
+def _parse_request(request_data, trip_type=None):
+	flight_request_data = {
+		"flight_req": {
+			"trip_type": "oneway",
+			"currency": "USD",
+			"cabin": "Y",
+			"sectors": [],
+			"passengers": {
+				"adult": 0,
+				"child": 0,
+				"lap_infant": 0,
+				"infant": 0,
+				"senior_citizen": 0,
+				"youth": 0,
+				"junior": 0
+			},
+			"shareUrlId": "",
+			"search_type": "lowFareSearch"
+		}
+	}
 	pax_details = request_data.get("paxDetails")
-	FLIGHT_REQUEST_DATA["flight_req"]["passengers"]["adult"] = pax_details["adultsCount"]
-	FLIGHT_REQUEST_DATA["flight_req"]["passengers"]["child"] = pax_details["infantsCount"]
-	FLIGHT_REQUEST_DATA["flight_req"]["passengers"]["infant"] = pax_details["childrenCount"]
+	flight_request_data["flight_req"]["passengers"]["adult"] = pax_details[
+		"adultsCount"]
+	flight_request_data["flight_req"]["passengers"]["child"] = pax_details[
+		"infantsCount"]
+	flight_request_data["flight_req"]["passengers"]["infant"] = pax_details[
+		"childrenCount"]
 
-	trip_type = TRIP_TYPE_MAP[request_data["tripType"].lower()]
-	FLIGHT_REQUEST_DATA["flight_req"]["trip_type"] = trip_type
+	if not trip_type:
+		trip_type = TRIP_TYPE_MAP[request_data["tripType"].lower()]
+	flight_request_data["flight_req"]["trip_type"] = trip_type
 	destinations = request_data.get("destination")
 	if trip_type == "multi" and len(destinations) > 5:
 		return 400, "Bad Request"
@@ -91,20 +112,27 @@ def get_data():
 			"departure_date": destination["departureTime"],
 			"destination": destination["arrivalLocationCode"],
 			"origin": destination["departureLocationCode"],
-			"sector_type":"departure"
+			"sector_type": "departure"
 		}
-		FLIGHT_REQUEST_DATA["flight_req"]["sectors"].append(sector)
+		flight_request_data["flight_req"]["sectors"].append(sector)
 
 	cabin_class = request_data["cabinClass"]
-	FLIGHT_REQUEST_DATA["flight_req"]["cabin"] = CABIN_CLASS_MAP[cabin_class]
+	flight_request_data["flight_req"]["cabin"] = CABIN_CLASS_MAP[cabin_class]
+	return flight_request_data
 
+
+@app.route("/api/v1/fetch_flights", methods=["POST"])
+@app.route("/api/v1/fetch_flights/<trip_type>", methods=["POST"])
+def get_data(trip_type=None):
 	try:
+		request_data = request.get_json()
+		flight_request_data = _parse_request(request_data, trip_type)
 		deal_url = os.getenv("DEAL_URL")
 		headers = {
 			"Portal-Origin": os.getenv("PORTAL_ORIGIN")
 		}
 		resp_data = fetch_data(
-			url=deal_url, request_data=FLIGHT_REQUEST_DATA, headers=headers)
+			url=deal_url, request_data=flight_request_data, headers=headers)
 		flights_info = parse_data(resp_data)
 		info = {
 			"status": "Success",
