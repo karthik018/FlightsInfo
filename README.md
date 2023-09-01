@@ -24,9 +24,13 @@ flask run
 
 # Testing the API
 1. I recommed to use [Postman](https://www.postman.com/downloads/) to test.
-2. This service has one API endpoint (/api/v1/fetch_flights)
-3. The sample requests to test
-# OneWay
+2. The service has two endpoints
+````python
+'/api/v1/flights_info'
+'/api/v1/flights_info/trip_type' #(oneway, roundtrip, multicity)
+````
+# /api/v1/flights_info
+#### OneWay
 ````json
 {
   "paxDetails": {
@@ -45,7 +49,7 @@ flask run
   ]
 }
 ````
-# RoundTrip
+#### RoundTrip
 ````json
 {
   "paxDetails": {
@@ -69,7 +73,7 @@ flask run
   ]
 }
 ````
-# MultiCity
+#### MultiCity
 ````json
 {
   "paxDetails": {
@@ -97,3 +101,74 @@ flask run
       }
   ]
 }
+````
+# /api/v1/flights_info/trip_type
+#### OneWay
+````json
+{
+  "paxDetails": {
+      "adultsCount": 0,
+      "infantsCount": 0,
+      "childrenCount": 0
+  },
+  "cabinClass": "Economy",
+  "destination": [
+      {
+        "departureTime": "2023-09-01",
+        "arrivalLocationCode": "DEL",
+        "departureLocationCode": "HYD"
+      }
+  ]
+}
+````
+#### RoundTrip
+````json
+{
+  "paxDetails": {
+      "adultsCount": 0,
+      "infantsCount": 0,
+      "childrenCount": 0
+  },
+  "cabinClass": "Economy",
+  "destination": [
+      {
+        "departureTime": "2023-09-01",
+        "arrivalLocationCode": "DEL",
+        "departureLocationCode": "HYD"
+      },
+      {
+        "departureTime": "2023-09-04",
+        "arrivalLocationCode": "HYD",
+        "departureLocationCode": "DEL"
+      }
+  ]
+}
+````
+#### MultiCity
+````json
+{
+  "paxDetails": {
+      "adultsCount": 0,
+      "infantsCount": 0,
+      "childrenCount": 0
+  },
+  "cabinClass": "Economy",
+  "destination": [
+      {
+        "departureTime": "2023-09-01",
+        "arrivalLocationCode": "DEL",
+        "departureLocationCode": "HYD"
+      },
+      {
+        "departureTime": "2023-09-04",
+        "arrivalLocationCode": "BOM",
+        "departureLocationCode": "DEL"
+      },
+      {
+        "departureTime": "2023-09-08",
+        "arrivalLocationCode": "HYD",
+        "departureLocationCode": "BOM"
+      }
+  ]
+}
+````
