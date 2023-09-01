@@ -26,6 +26,7 @@ flask run
 1. I recommed to use [Postman](https://www.postman.com/downloads/) to test.
 2. This service has one API endpoint (/api/v1/fetch_flights)
 3. The sample requests to test
+# OneWay
 ````json
 {
   "paxDetails": {
@@ -43,7 +44,9 @@ flask run
       }
   ]
 }
-
+````
+# RoundTrip
+````json
 {
   "paxDetails": {
       "adultsCount": 0,
@@ -65,7 +68,9 @@ flask run
       }
   ]
 }
-
+````
+# MultiCity
+````json
 {
   "paxDetails": {
       "adultsCount": 0,
