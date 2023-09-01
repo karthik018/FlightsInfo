@@ -92,9 +92,9 @@ def _parse_request(request_data, trip_type=None):
 	flight_request_data["flight_req"]["passengers"]["adult"] = pax_details[
 		"adultsCount"]
 	flight_request_data["flight_req"]["passengers"]["child"] = pax_details[
-		"infantsCount"]
-	flight_request_data["flight_req"]["passengers"]["infant"] = pax_details[
 		"childrenCount"]
+	flight_request_data["flight_req"]["passengers"]["infant"] = pax_details[
+		"infantsCount"]
 
 	if not trip_type:
 		trip_type = TRIP_TYPE_MAP[request_data["tripType"].lower()]
