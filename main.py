@@ -125,7 +125,7 @@ def _parse_request(request_data, trip_type=None):
 @app.route("/api/v1/fetch_flights/<trip_type>", methods=["POST"])
 def get_data(trip_type=None):
 	try:
-		request_data = request.get_json()
+		request_data = request.get_json() # changed
 		flight_request_data = _parse_request(request_data, trip_type)
 		deal_url = os.getenv("DEAL_URL")
 		headers = {
