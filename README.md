@@ -1,6 +1,15 @@
 # FlightsInfo
 1. Clone the repo
 2. cd into repo directory
+# Create Virtual environment
+````bash
+python -m venv venv
+source venv/bin/activate
+````
+# Install required dependencies from requirements.txt
+````bash
+pip install -r requirements.txt
+````
 3. Set these environment variables:
 ````bash
 export FLASK_APP=main.py
