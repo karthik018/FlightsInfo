@@ -27,7 +27,7 @@ flask run
 2. The service has two endpoints
 ````python
 '/api/v1/flights_info'
-'/api/v1/flights_info/trip_type' #(oneway, roundtrip, multicity)
+'/api/v1/flights_info/trip_type' 
 ````
 # /api/v1/flights_info
 #### OneWay
@@ -103,6 +103,12 @@ flask run
 }
 ````
 # /api/v1/flights_info/trip_type
+````python
+# trip_type is variable in this
+# '/api/v1/flights_info/oneway'
+# '/api/v1/flights_info/roundtrip'
+# '/api/v1/flights_info/multicity'
+````
 #### OneWay
 ````json
 {
