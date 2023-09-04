@@ -14,9 +14,9 @@ pip install -r requirements.txt
 3. Set these environment variables:
 ````bash
 export FLASK_APP=main.py
-export DEAL_URL=https://api.claritysso.com/api/flights/getResult/deal
-export FILTER_URL=https://api.claritysso.com/api/flights/flightSearchFilterData
-export PORTAL_ORIGIN=https://citiairtravel.com
+export DEAL_URL=
+export FILTER_URL=
+export PORTAL_ORIGIN=
 ````
 4. Run Flask server either in pycharm or using command line
 ````bash
